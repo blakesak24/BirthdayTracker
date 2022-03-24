@@ -10,4 +10,6 @@ data class Person(
     var Giftsgiven: List<String> = listOf(),
     var Giftsrecieved: List<String> = listOf(),
     var giftPurchased: Boolean = false,
+    var ownerId : String? = null,
+    var objectid : String? = null
 )

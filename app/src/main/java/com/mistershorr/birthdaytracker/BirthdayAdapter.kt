@@ -36,6 +36,9 @@ class BirthdayAdapter(var birthdayList: List<Person>) : RecyclerView.Adapter<Bir
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.layout.context
         val person = birthdayList[position]
+        holder.textViewName.text = person.name
+        person.birthday
+
 
     }
 
