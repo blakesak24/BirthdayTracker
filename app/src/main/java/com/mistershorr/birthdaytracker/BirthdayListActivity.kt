@@ -37,7 +37,7 @@ class BirthdayListActivity : AppCompatActivity() {
         queryBuilder.whereClause = whereClause
 
 
-        Backendless.Data.of(Person::class.java).find(object : AsyncCallback<List<Person?>?> {
+        Backendless.Data.of(Person::class.java).find(queryBuilder, object : AsyncCallback<List<Person?>?> {
             override fun handleResponse(foundPeople: List<Person?>?) {
                 // every loaded object from the "Contact" table is now an individual java.util.Map
                 Log.d("BirthdayList", "handleResponse: ${foundPeople}")

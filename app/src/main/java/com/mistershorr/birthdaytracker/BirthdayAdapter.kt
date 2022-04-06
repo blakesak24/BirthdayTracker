@@ -1,5 +1,6 @@
 package com.mistershorr.birthdaytracker
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 class BirthdayAdapter(var birthdayList: List<Person>) : RecyclerView.Adapter<BirthdayAdapter.ViewHolder>() {
 
@@ -38,6 +40,34 @@ class BirthdayAdapter(var birthdayList: List<Person>) : RecyclerView.Adapter<Bir
         val person = birthdayList[position]
         holder.textViewName.text = person.name
         person.birthday
+
+        val calendarBday = Calendar.getInstance()
+        calendarBday.time = person.birthday
+        val calendarToday = Calendar.getInstance()
+        val bdayMonth = calendarBday.get(Calendar.MONTH)
+        val bdayDay = calendarBday.get(Calendar.DAY_OF_MONTH)
+        val todayMonth = calendarToday.get(Calendar.MONTH)
+        val todayDay = calendarToday.get(Calendar.DAY_OF_MONTH)
+        val todayYear = calendarToday.get(Calendar.YEAR)
+
+        if (bdayMonth > todayMonth || bdayMonth == todayMonth && bdayDay > todayDay){
+            calendarBday.set(Calendar.YEAR, todayYear)
+        }
+        else if ( bdayMonth == todayMonth && bdayDay == todayDay){
+            calendarBday.set(Calendar.YEAR, todayYear)
+        }
+        else {
+            calendarBday.set(Calendar.YEAR, todayYear + 1)
+        }
+        var differnce = calendarBday.timeInMillis - calendarToday.timeInMillis
+        var daysDiff = differnce / (1000 * 60 * 60 * 24)
+        holder.textViewDaysUntil.text = "$daysDiff left"
+        holder.checkBoxGiftBought.isChecked = person.giftPurchased
+        holder.layout.setOnClickListener{
+            val detailIntent = Intent(context, BirthdayDetailActivity::class.java)
+            detailIntent.putExtra(BirthdayDetailActivity.EXTRA_PERSON, person)
+            context.startActivity(detailIntent)
+        }
 
 
     }

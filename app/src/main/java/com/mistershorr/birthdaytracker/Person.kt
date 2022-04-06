@@ -1,7 +1,9 @@
 package com.mistershorr.birthdaytracker
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.util.*
-
+@Parcelize
 data class Person(
     var name :String ="",
     var birthday: Date= Date(1646932056741),
@@ -12,4 +14,6 @@ data class Person(
     var giftPurchased: Boolean = false,
     var ownerId : String? = null,
     var objectid : String? = null
-)
+): Parcelable {
+
+}

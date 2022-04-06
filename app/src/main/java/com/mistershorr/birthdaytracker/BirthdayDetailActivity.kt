@@ -13,6 +13,16 @@ import com.mistershorr.birthdaytracker.databinding.ActivityBirthdayDetailBinding
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import com.backendless.exceptions.BackendlessFault
+
+import com.backendless.async.callback.AsyncCallback
+
+import com.backendless.Backendless
+
+import android.R.string.no
+import android.util.Log
+import android.widget.Toast
+
 
 class BirthdayDetailActivity : AppCompatActivity() {
 
@@ -20,10 +30,44 @@ class BirthdayDetailActivity : AppCompatActivity() {
     var personIsEditable = false
     var cal = Calendar.getInstance()
 
+        companion object{
+            val EXTRA_PERSON = "person"
+        }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBirthdayDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //get the intent and fill in all the values
+        var person = intent.getParcelableExtra<Person>(EXTRA_PERSON)
+        binding.editTextBirthdayDetailName.setText(person?.name)
+        binding.editTextBirthdayDetailDesiredGift.setText(person?.giftwanted)
+        binding.editTextBirthdayDetailBudget.setText(person?.giftbudget.toString())
+        binding.checkBoxBirthdayDetailGiftBought.isChecked = person?.giftPurchased ?: false
+        binding.textViewBirthdayDetailBirthdate.text = person?.birthday.toString()
+
+        //save the object
+        binding.buttonBirthdayDetailSave.setOnClickListener{
+            if(person == null){
+                person = Person()
+            }
+
+            person!!.name = binding.editTextBirthdayDetailName.text.toString()
+            person!!.giftbudget = binding.editTextBirthdayDetailBudget.text.toString().toDouble()
+
+            Backendless.Data.of(Person::class.java).save(person, object : AsyncCallback<Person?> {
+                override fun handleResponse(response: Person?) {
+                    // new Contact instance has been saved
+                    Toast.makeText(this@BirthdayDetailActivity, "save successful", Toast.LENGTH_SHORT).show()
+
+                }
+
+                override fun handleFault(fault: BackendlessFault) {
+                    Log.d("BrithdayActivity", "handleFault: ${fault.message}")
+                }
+            })}
 
         // datepicker code from https://www.tutorialkart.com/kotlin-android/android-datepicker-kotlin-example/
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
@@ -88,11 +132,11 @@ class BirthdayDetailActivity : AppCompatActivity() {
             binding.buttonBirthdayDetailSave.visibility = View.VISIBLE
             binding.checkBoxBirthdayDetailGiftBought.isEnabled = true
             binding.editTextBirthdayDetailName.inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
-            binding.editTextBirthdayDetailName.isEnabled = false
+            binding.editTextBirthdayDetailName.isEnabled = true
             binding.editTextBirthdayDetailDesiredGift.inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
-            binding.editTextBirthdayDetailDesiredGift.isEnabled = false
+            binding.editTextBirthdayDetailDesiredGift.isEnabled = true
             binding.editTextBirthdayDetailBudget.inputType = InputType.TYPE_NUMBER_VARIATION_NORMAL
-            binding.editTextBirthdayDetailBudget.isEnabled = false
+            binding.editTextBirthdayDetailBudget.isEnabled = true
             binding.textViewBirthdayDetailBirthdate.isClickable = true
         }
     }
