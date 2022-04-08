@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import com.backendless.Backendless
@@ -12,6 +13,7 @@ import com.backendless.BackendlessUser
 import com.backendless.async.callback.AsyncCallback
 import com.backendless.exceptions.BackendlessFault
 import com.mistershorr.birthdaytracker.databinding.ActivityLoginBinding
+import kotlin.math.E
 
 
 class LoginActivity : AppCompatActivity() {
@@ -24,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         // keys for the key-value pairs for the intent extras
         val EXTRA_USERNAME = "username"
         val EXTRA_PASSWORD = "password"
-        val Extra_USSR = "userid"
+        val EXTRA_USER_ID = "userid"
     }
 
     // starting an activity for a result
@@ -50,6 +52,27 @@ class LoginActivity : AppCompatActivity() {
 
         Backendless.initApp(this,  Constants.APP_ID, Constants.API_KEY)
 
+
+        binding.buttonLoginLogin.setOnClickListener {
+            val username = binding.editTextLoginUsername.text.toString()
+            val password = binding.editTextLoginPassword.text.toString()
+            Backendless.UserService.login(
+                username,
+                password,
+                object : AsyncCallback<BackendlessUser> {
+                    override fun handleResponse(user: BackendlessUser?) {
+                        Toast.makeText(this@LoginActivity, "${user?.getProperty("username")} has logged in successfully", Toast.LENGTH_SHORT).show()
+                        var birthdayListIntent = Intent(this@LoginActivity, BirthdayListActivity::class.java)
+                        birthdayListIntent.putExtra(EXTRA_USER_ID, user?.objectId)
+                        startActivity(birthdayListIntent)
+                        Log.d("loginActivity", "handleResponse : ${user?.email}")
+                        finish()
+                    }
+                    override fun handleFault(fault: BackendlessFault) {
+                        Log.d("LoginActivty", "handleFault : ${fault.message}")
+                    }
+                })
+        }
         binding.textViewLoginCreateAccount.setOnClickListener {
             // launch the registration activity
             // pass the values of username and password along to the new activity
@@ -63,6 +86,7 @@ class LoginActivity : AppCompatActivity() {
                     override fun handleResponse(user: BackendlessUser?) {
                         Log.d("LoginActivity", "handleResponse: ${user?.email}")
                         var birthdayListIntent = Intent(this@LoginActivity, BirthdayListActivity::class.java)
+
                         startActivity(birthdayListIntent)
                         finish()
                     }

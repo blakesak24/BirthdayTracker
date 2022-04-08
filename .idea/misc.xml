@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.253125" />
         <entry key="app/src/main/res/layout/activity_birthday_detail.xml" value="0.19927536231884058" />
         <entry key="app/src/main/res/layout/activity_birthday_list.xml" value="0.19067028985507245" />
@@ -11,7 +12,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_registration.xml" value="0.41770833333333335" />
         <entry key="app/src/main/res/layout/item_birthday.xml" value="0.19927536231884058" />
-        <entry key="app/src/main/res/menu/menu_birthday_detail.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/menu/menu_birthday_detail.xml" value="0.335" />
       </map>
     </option>
   </component>

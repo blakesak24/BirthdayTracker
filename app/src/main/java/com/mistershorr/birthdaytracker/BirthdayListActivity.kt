@@ -1,5 +1,6 @@
 package com.mistershorr.birthdaytracker
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -21,18 +22,25 @@ import com.backendless.persistence.DataQueryBuilder
 class BirthdayListActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityBirthdayListBinding
-
+    lateinit var userId : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBirthdayListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userId = intent.getStringExtra(LoginActivity.EXTRA_USER_ID)?: ""
         loadDataFromBackendless()
-
+        binding.fabBirthdaylistCreateNew.setOnClickListener{
+            val detailIntent = Intent(this,BirthdayDetailActivity::class.java)
+            startActivity(detailIntent)
+        }
     }
-
+        override fun onStart(){
+            super.onStart()
+            loadDataFromBackendless()
+        }
     private fun loadDataFromBackendless() {
-            val objectId = Backendless.UserService.CurrentUser().objectId
-        val whereClause = "ownerId = '$objectId'"
+
+        var whereClause = "ownerId = '$userId'"
         val queryBuilder = DataQueryBuilder.create()
         queryBuilder.whereClause = whereClause
 

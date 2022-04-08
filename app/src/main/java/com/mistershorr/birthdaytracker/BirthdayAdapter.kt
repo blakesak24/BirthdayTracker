@@ -39,7 +39,7 @@ class BirthdayAdapter(var birthdayList: List<Person>) : RecyclerView.Adapter<Bir
         val context = holder.layout.context
         val person = birthdayList[position]
         holder.textViewName.text = person.name
-        person.birthday
+
 
         val calendarBday = Calendar.getInstance()
         calendarBday.time = person.birthday

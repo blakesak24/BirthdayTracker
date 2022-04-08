@@ -27,6 +27,7 @@ import android.widget.Toast
 class BirthdayDetailActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityBirthdayDetailBinding
+    lateinit var person : Person
     var personIsEditable = false
     var cal = Calendar.getInstance()
 
@@ -41,7 +42,7 @@ class BirthdayDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //get the intent and fill in all the values
-        var person = intent.getParcelableExtra<Person>(EXTRA_PERSON)
+        person = intent.getParcelableExtra<Person>(EXTRA_PERSON)!!
         binding.editTextBirthdayDetailName.setText(person?.name)
         binding.editTextBirthdayDetailDesiredGift.setText(person?.giftwanted)
         binding.editTextBirthdayDetailBudget.setText(person?.giftbudget.toString())
@@ -109,8 +110,25 @@ class BirthdayDetailActivity : AppCompatActivity() {
                 toggleEditable()
                 true
             }
+            R.id.menu_item_birthday_delete->{
+                deletefrombackendless()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    private fun deletefrombackendless(){
+        Backendless.Data.of(Person::class.java).remove(person,
+        object : AsyncCallback<Long?>{
+            override fun handleResponse(response: Long?) {
+                finish()
+            }
+
+            override fun handleFault(fault: BackendlessFault) {
+                Log.d("LoginActivty", "handleFault : ${fault.message}")
+            }
+
+        })
     }
 
     private fun toggleEditable() {

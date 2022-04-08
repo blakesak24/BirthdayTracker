@@ -7,4 +7,9 @@
         android:title="Edit Person"
         android:id="@+id/menu_item_birthday_detail_edit"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_item_birthday_delete"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="menu_item_birthday_delete"
+        app:showAsAction="always" />
 </menu>
