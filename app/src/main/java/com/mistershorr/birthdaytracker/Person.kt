@@ -9,11 +9,11 @@ data class Person(
     var birthday: Date= Date(1646932056741),
     var giftbudget:Double = .99,
     var giftwanted:String = "string",
-    var Giftsgiven: List<String> = listOf(),
-    var Giftsrecieved: List<String> = listOf(),
+//    var Giftsgiven: List<String> = listOf(),
+//    var Giftsrecieved: List<String> = listOf(),
     var giftPurchased: Boolean = false,
     var ownerId : String? = null,
-    var objectid : String? = null
+    var objectId : String? = null
 ): Parcelable {
 
 }

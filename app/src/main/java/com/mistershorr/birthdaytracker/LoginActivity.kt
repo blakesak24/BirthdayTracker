@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         // keys for the key-value pairs for the intent extras
         val EXTRA_USERNAME = "username"
         val EXTRA_PASSWORD = "password"
-        val EXTRA_USER_ID = "userid"
+        val EXTRA_USER_ID = "userId"
     }
 
     // starting an activity for a result

@@ -42,7 +42,7 @@ class BirthdayDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //get the intent and fill in all the values
-        person = intent.getParcelableExtra<Person>(EXTRA_PERSON)!!
+        person = intent.getParcelableExtra<Person>(EXTRA_PERSON) ?: Person()
         binding.editTextBirthdayDetailName.setText(person?.name)
         binding.editTextBirthdayDetailDesiredGift.setText(person?.giftwanted)
         binding.editTextBirthdayDetailBudget.setText(person?.giftbudget.toString())
@@ -51,9 +51,8 @@ class BirthdayDetailActivity : AppCompatActivity() {
 
         //save the object
         binding.buttonBirthdayDetailSave.setOnClickListener{
-            if(person == null){
-                person = Person()
-            }
+
+
 
             person!!.name = binding.editTextBirthdayDetailName.text.toString()
             person!!.giftbudget = binding.editTextBirthdayDetailBudget.text.toString().toDouble()
@@ -125,7 +124,7 @@ class BirthdayDetailActivity : AppCompatActivity() {
             }
 
             override fun handleFault(fault: BackendlessFault) {
-                Log.d("LoginActivty", "handleFault : ${fault.message}")
+                Log.d("BirthdahDetail", "handleFault : ${fault.message}")
             }
 
         })

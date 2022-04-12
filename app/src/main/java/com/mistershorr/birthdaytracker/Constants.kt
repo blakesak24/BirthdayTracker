@@ -1,6 +1,6 @@
 package com.mistershorr.birthdaytracker
 
 object Constants {
-    val APP_ID = "D73FF946-6D42-FBEA-FF70-2B742278DA00"
-    val API_KEY = "3848EA84-57F7-4EC2-BE4D-290172B33BF3"
+    val APP_ID = "FB9157DA-F204-97BA-FFBB-B5E57B09FF00"
+    val API_KEY = "5D1E2479-2BC8-416E-A051-F709AE9838E6"
 }
